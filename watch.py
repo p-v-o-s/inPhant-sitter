@@ -15,12 +15,12 @@ try:
         d['mem'] = float(data[1])
         d['pid'] = int(data[2])
         print(d)
-        if d['cpu'] >= 5 or d['mem'] >= 50:
+        if d['cpu'] >= config.watch['cpu_limit'] or d['mem'] >= config.watch['mem_limit']:
             print("Killing process pid=%d" % d['pid'])
             print(os.popen("kill %d" % d['pid']).read())
-            twilio_client.messages.create(to    = config.twilio['my_number'],
-                                          from_ = config.twilio['my_number'],
-                                          body  = "inPhant-sitter.watch.py: killed at: %r" % d,
+            twilio_client.messages.create(to    = config.twilio['number_cversek'],
+                                          from_ = config.twilio['number_main'],
+                                          body  = "inPhant-sitter_watch_py: killed at: %r" % d,
                                          )
         time.sleep(10)
 except KeyboardInterrupt:
